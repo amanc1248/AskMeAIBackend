@@ -37,4 +37,32 @@ exports.getUserById = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+};
+
+// Get user by email
+exports.getUserByEmail = async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.params.email });
+    if (user) {
+      res.json(user);
+    } else {
+      res.status(404).json({ message: 'User not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Get user by shareable link
+exports.getUserByShareableLink = async (req, res) => {
+  try {
+    const user = await User.findOne({ shareableLink: req.params.shareableLink });
+    if (user) {
+      res.json({ name: user.name });
+    } else {
+      res.status(404).json({ message: 'User not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 }; 

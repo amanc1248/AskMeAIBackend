@@ -10,10 +10,26 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  createdAt: {
-    type: Date,
-    default: Date.now
+  shareableLink: {
+    type: String,
+    unique: true
+  },
+  personalData: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'PersonalData'
+  }]
+}, { timestamps: true });
+
+// Generate unique shareable link before saving
+userSchema.pre('save', function(next) {
+  if (!this.shareableLink) {
+    this.shareableLink = generateUniqueId();
   }
+  next();
 });
+
+function generateUniqueId() {
+  return Math.random().toString(36).substring(2) + Date.now().toString(36);
+}
 
 module.exports = mongoose.model('User', userSchema); 

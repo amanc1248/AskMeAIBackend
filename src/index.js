@@ -4,6 +4,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 const userRoutes = require('./routes/userRoutes');
+const personalDataRoutes = require('./routes/personalDataRoutes');
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api/users', userRoutes);
+app.use('/api/personal-data', personalDataRoutes);
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI)
